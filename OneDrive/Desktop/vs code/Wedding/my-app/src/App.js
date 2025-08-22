@@ -31,7 +31,7 @@ function App() {
     return () => clearInterval(timer);
   }, []);
 
-  // === Scroll Reveal with Reverse Animation ===
+  // === Scroll Reveal ===
   useEffect(() => {
     const revealElements = document.querySelectorAll(".reveal");
     const observer = new IntersectionObserver(
@@ -40,7 +40,6 @@ function App() {
           if (entry.isIntersecting) {
             entry.target.classList.add("active");
           } else {
-            // This is the new part that handles the reverse animation
             entry.target.classList.remove("active");
           }
         });
@@ -64,29 +63,20 @@ function App() {
     []
   );
 
-  // === Floating Stars ===
-  const stars = useMemo(
-    () =>
-      Array.from({ length: 12 }, (_, i) => ({
-        id: i,
-        left: Math.random() * 100,
-        delay: Math.random() * 6,
-        duration: 8 + Math.random() * 8,
-        size: 10 + Math.random() * 8,
-      })),
-    []
-  );
-
   const gallery = [
-    "/images/couple-1.jpg",
     "/images/couple-2.jpg",
     "/images/couple-3.jpg",
-    "/images/couple-1.jpg",
+    "/images/couple-4.jpg",
+    "/images/couple-6.jpg",
+    "/images/couple-9.jpg",
+    "/images/couple-10.jpg",
+    "/images/couple-11.jpg",
   ];
 
   return (
     <div className="App">
       <div className="sparkles"></div>
+
       {/* Floating Hearts */}
       <div className="hearts">
         {hearts.map((h) => (
@@ -104,7 +94,7 @@ function App() {
           </span>
         ))}
       </div>
- 
+
       {/* Section divider */}
       <div className="wave-divider">
         <svg viewBox="0 0 1440 100" width="100%" height="100">
