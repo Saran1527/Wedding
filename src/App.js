@@ -1,5 +1,5 @@
 // App.js
-import React, { useEffect, useState, useMemo } from "react";
+import React, { useEffect, useState, useMemo, useCallback } from "react";
 import "./App.css";
 import {
   FaHeart,
@@ -12,9 +12,8 @@ import {
 function App() {
   // === Date & Countdown ===
   const weddingDate = useMemo(() => new Date("2025-09-04T07:30:00"), []);
-  const [timeLeft, setTimeLeft] = useState(getTimeLeft());
 
-  function getTimeLeft() {
+  const getTimeLeft = useCallback(() => {
     const now = new Date();
     const diff = weddingDate - now;
     if (diff <= 0) return {};
@@ -24,12 +23,14 @@ function App() {
       minutes: Math.floor((diff / 1000 / 60) % 60),
       seconds: Math.floor((diff / 1000) % 60),
     };
-  }
+  }, [weddingDate]);
+
+  const [timeLeft, setTimeLeft] = useState(getTimeLeft);
 
   useEffect(() => {
     const timer = setInterval(() => setTimeLeft(getTimeLeft()), 1000);
     return () => clearInterval(timer);
-  }, []);
+  }, [getTimeLeft]); // ✅ dependency added safely
 
   // === Scroll Reveal ===
   useEffect(() => {
