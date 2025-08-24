@@ -1,5 +1,4 @@
-// App.js
-import React, { useEffect, useState, useMemo, useCallback } from "react";
+import { useState, useEffect, useMemo, useCallback } from "react";
 import "./App.css";
 import {
   FaHeart,
@@ -10,6 +9,31 @@ import {
 } from "react-icons/fa";
 
 function App() {
+  // === Auto-scroll on page load ===
+  useEffect(() => {
+    const sections = document.querySelectorAll("section");
+    let currentSectionIndex = 0;
+    
+    // Function to scroll to a specific section
+    const scrollToSection = (index) => {
+      if (index < sections.length) {
+        sections[index].scrollIntoView({ behavior: "smooth" });
+        currentSectionIndex = index;
+        
+        // Continue scrolling to next section after 3 seconds
+        if (index < sections.length - 1) {
+          setTimeout(() => scrollToSection(index + 1), 8000);
+        }
+      }
+    };
+    
+    // Start the auto-scroll sequence after a brief initial delay
+    const scrollTimer = setTimeout(() => scrollToSection(0), 1000);
+    
+    // Clean up on unmount
+    return () => clearTimeout(scrollTimer);
+  }, []);
+
   // === Date & Countdown ===
   const weddingDate = useMemo(() => new Date("2025-09-04T07:30:00"), []);
 
@@ -30,7 +54,7 @@ function App() {
   useEffect(() => {
     const timer = setInterval(() => setTimeLeft(getTimeLeft()), 1000);
     return () => clearInterval(timer);
-  }, [getTimeLeft]); // ✅ dependency added safely
+  }, [getTimeLeft]);
 
   // === Scroll Reveal ===
   useEffect(() => {
