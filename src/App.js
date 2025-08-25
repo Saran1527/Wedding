@@ -1,42 +1,258 @@
+
+
+// import { useState, useEffect, useMemo, useCallback } from "react";
+// import "./App.css";
+// import {
+//   FaHeart,
+//   FaGlassCheers,
+//   FaMapMarkerAlt,
+//   FaCameraRetro,
+// } from "react-icons/fa";
+// import { GiDiamondRing } from "react-icons/gi"; // ✅ Realistic ring icon
+
+// function App() {
+//   // === Auto-scroll on page load ===
+//   useEffect(() => {
+//     const sections = document.querySelectorAll("section");
+
+//     const scrollToSection = (index) => {
+//       if (index < sections.length) {
+//         sections[index].scrollIntoView({ behavior: "smooth" });
+//         if (index < sections.length - 1) {
+//           setTimeout(() => scrollToSection(index + 1), 8000);
+//         }
+//       }
+//     };
+
+//     const scrollTimer = setTimeout(() => scrollToSection(0), 1000);
+//     return () => clearTimeout(scrollTimer);
+//   }, []);
+
+//   // === Date & Countdown ===
+//   const weddingDate = useMemo(() => new Date("2025-09-04T07:30:00"), []);
+
+//   const getTimeLeft = useCallback(() => {
+//     const now = new Date();
+//     const diff = weddingDate - now;
+//     if (diff <= 0) return {};
+//     return {
+//       days: Math.floor(diff / (1000 * 60 * 60 * 24)),
+//       hours: Math.floor((diff / (1000 * 60 * 60)) % 24),
+//       minutes: Math.floor((diff / 1000 / 60) % 60),
+//       seconds: Math.floor((diff / 1000) % 60),
+//     };
+//   }, [weddingDate]);
+
+//   const [timeLeft, setTimeLeft] = useState(getTimeLeft);
+
+//   useEffect(() => {
+//     const timer = setInterval(() => setTimeLeft(getTimeLeft()), 1000);
+//     return () => clearInterval(timer);
+//   }, [getTimeLeft]);
+
+//   // === Scroll Reveal ===
+//   useEffect(() => {
+//     const revealElements = document.querySelectorAll(".reveal");
+//     const observer = new IntersectionObserver(
+//       (entries) => {
+//         entries.forEach((entry) => {
+//           entry.target.classList.toggle("active", entry.isIntersecting);
+//         });
+//       },
+//       { threshold: 0.2 }
+//     );
+//     revealElements.forEach((el) => observer.observe(el));
+//     return () => observer.disconnect();
+//   }, []);
+
+//   // === Floating Hearts ===
+//   const hearts = useMemo(
+//     () =>
+//       Array.from({ length: 20 }, (_, i) => ({
+//         id: i,
+//         left: Math.random() * 100,
+//         delay: Math.random() * 5,
+//         duration: 6 + Math.random() * 6,
+//         size: 16 + Math.random() * 14,
+//       })),
+//     []
+//   );
+
+//   const gallery = [
+//     "/images/couple-2.jpg",
+//     "/images/couple-3.jpg",
+//     "/images/couple-4.jpg",
+//     "/images/couple-6.jpg",
+//     "/images/couple-9.jpg",
+//     "/images/couple-10.jpg",
+//     "/images/couple-11.jpg",
+//   ];
+
+//   return (
+//     <div className="App">
+//       <div className="sparkles"></div>
+
+//       {/* Floating Hearts */}
+//       <div className="hearts">
+//         {hearts.map((h) => (
+//           <span
+//             key={h.id}
+//             className="heart"
+//             style={{
+//               left: `${h.left}%`,
+//               animationDelay: `${h.delay}s`,
+//               animationDuration: `${h.duration}s`,
+//               fontSize: `${h.size}px`,
+//             }}
+//           >
+//             ❤️
+//           </span>
+//         ))}
+//       </div>
+
+//       {/* Welcome */}
+//       <section className="welcome">
+//         <h1 className="glow slide-in-left">
+//           <GiDiamondRing className="ring-icon" /> Hari Weds Vino{" "}
+//           <GiDiamondRing className="ring-icon" />
+//         </h1>
+//         <p className="intro slide-in-right delay-1">
+//           Join us as we celebrate the marriage of <br />
+//           <strong>Hari & Vino</strong>
+//         </p>
+//         <p className="slide-in-left delay-2">
+//           ✨ <FaGlassCheers /> Reception ✨ <br /> 03rd Sept. 2025 from 7:00 p.m
+//         </p>
+//         <p className="slide-in-right delay-3">
+//           💒 <FaHeart /> Marriage 💒 <br /> 04th Sept. 2025 • 7:30 a.m – 9:00 a.m
+//         </p>
+//         <p className="slide-in-left delay-4">
+//           <FaMapMarkerAlt /> Venue:{" "}
+//           <strong>
+//             P. Ramasamy Seethalakshmi Palace A/c Thirumana Mandapam, Mailam
+//           </strong>
+//         </p>
+//         <p className="tagline slide-in-right delay-5">
+//           🌸 Make the moment special with us 🌸
+//         </p>
+//       </section>
+
+//       {/* Countdown */}
+//       <section className="countdown reveal">
+//         <h2 className="animate-heading">⏳ Countdown to Our Big Day</h2>
+//         {timeLeft.days !== undefined ? (
+//           <div className="timer">
+//             <div>
+//               <span>{timeLeft.days}</span>Days
+//             </div>
+//             <div>
+//               <span>{timeLeft.hours}</span>Hours
+//             </div>
+//             <div>
+//               <span>{timeLeft.minutes}</span>Minutes
+//             </div>
+//             <div>
+//               <span>{timeLeft.seconds}</span>Seconds
+//             </div>
+//           </div>
+//         ) : (
+//           <p>🎉 It's our wedding day! 🎉</p>
+//         )}
+//       </section>
+
+//       {/* Couple */}
+//       <section className="couple reveal">
+//         <div className="left">
+//           <img src="/images/couple-1.jpg" alt="Couple" className="couple-img" />
+//         </div>
+//         <div className="right">
+//           <h2>
+//             Hari <FaHeart /> Vino
+//           </h2>
+//           <p>
+//             Two souls, one heart. Join us as we begin this beautiful journey
+//             together, surrounded by love, laughter, and blessings.
+//           </p>
+//         </div>
+//       </section>
+
+//       {/* Gallery */}
+//       <section className="gallery reveal">
+//         <h2 className="animate-heading">
+//           <FaCameraRetro /> Photo Shoot Moments
+//         </h2>
+//         <div className="images">
+//           {gallery.map((src, idx) => (
+//             <div className="heart-frame" key={idx}>
+//               <img src={src} alt={`pic${idx + 1}`} />
+//             </div>
+//           ))}
+//         </div>
+//       </section>
+
+//       {/* Venue */}
+//       <section className="venue reveal">
+//         <div className="left">
+//           <h2 className="animate-heading">
+//             <FaMapMarkerAlt /> Wedding Venue
+//           </h2>
+//           <p>
+//             P. Ramasamy Seethalakshmi Palace A/c <br />
+//             Thirumana Mandapam, Mailam
+//           </p>
+//           <p>📅 03rd & 04th Sept. 2025</p>
+//         </div>
+//         <div className="right">
+//           <iframe
+//             title="venue-map"
+//             src={
+//               "https://www.google.com/maps?q=" +
+//               encodeURIComponent(
+//                 "P. Ramasamy Seethalakshmi Palace A/c Thirumana Mandapam, Mailam"
+//               ) +
+//               "&output=embed"
+//             }
+//             width="100%"
+//             height="250"
+//             style={{ border: 0 }}
+//             allowFullScreen
+//             loading="lazy"
+//           ></iframe>
+//         </div>
+//       </section>
+//     </div>
+//   );
+// }
+
+// export default App;
 import { useState, useEffect, useMemo, useCallback } from "react";
 import "./App.css";
 import {
   FaHeart,
-  FaRing,
   FaGlassCheers,
   FaMapMarkerAlt,
   FaCameraRetro,
 } from "react-icons/fa";
+import { GiDiamondRing } from "react-icons/gi";
 
 function App() {
-  // === Auto-scroll on page load ===
+  // Auto-scroll on page load
   useEffect(() => {
     const sections = document.querySelectorAll("section");
-    let currentSectionIndex = 0;
-    
-    // Function to scroll to a specific section
     const scrollToSection = (index) => {
       if (index < sections.length) {
         sections[index].scrollIntoView({ behavior: "smooth" });
-        currentSectionIndex = index;
-        
-        // Continue scrolling to next section after 3 seconds
         if (index < sections.length - 1) {
           setTimeout(() => scrollToSection(index + 1), 8000);
         }
       }
     };
-    
-    // Start the auto-scroll sequence after a brief initial delay
     const scrollTimer = setTimeout(() => scrollToSection(0), 1000);
-    
-    // Clean up on unmount
     return () => clearTimeout(scrollTimer);
   }, []);
 
-  // === Date & Countdown ===
+  // Date & Countdown
   const weddingDate = useMemo(() => new Date("2025-09-04T07:30:00"), []);
-
   const getTimeLeft = useCallback(() => {
     const now = new Date();
     const diff = weddingDate - now;
@@ -48,7 +264,6 @@ function App() {
       seconds: Math.floor((diff / 1000) % 60),
     };
   }, [weddingDate]);
-
   const [timeLeft, setTimeLeft] = useState(getTimeLeft);
 
   useEffect(() => {
@@ -56,17 +271,13 @@ function App() {
     return () => clearInterval(timer);
   }, [getTimeLeft]);
 
-  // === Scroll Reveal ===
+  // Scroll Reveal
   useEffect(() => {
     const revealElements = document.querySelectorAll(".reveal");
     const observer = new IntersectionObserver(
       (entries) => {
         entries.forEach((entry) => {
-          if (entry.isIntersecting) {
-            entry.target.classList.add("active");
-          } else {
-            entry.target.classList.remove("active");
-          }
+          entry.target.classList.toggle("active", entry.isIntersecting);
         });
       },
       { threshold: 0.2 }
@@ -75,7 +286,7 @@ function App() {
     return () => observer.disconnect();
   }, []);
 
-  // === Floating Hearts ===
+  // Floating Hearts
   const hearts = useMemo(
     () =>
       Array.from({ length: 20 }, (_, i) => ({
@@ -98,9 +309,66 @@ function App() {
     "/images/couple-11.jpg",
   ];
 
+  // ------------------- New: Petals & Stars Effect -------------------
+
+  // Create floating petals
+  useEffect(() => {
+    const petalsContainer = document.querySelector('.petals');
+    const createPetal = () => {
+      const petal = document.createElement('div');
+      petal.className = 'petal';
+
+      const size = Math.random() * 4 + 4; // 4px to 8px
+      petal.style.width = `${size}px`;
+      petal.style.height = `${size}px`;
+      petal.style.left = `${Math.random() * 100}%`;
+      petal.style.top = `-10px`;
+      petal.style.backgroundColor = `rgba(255,192,203, ${0.4 + Math.random() * 0.4})`;
+      petal.style.borderRadius = '50%';
+
+      // Random rotation
+      const rotateDeg = Math.random() * 360;
+      petal.style.transform = `rotate(${rotateDeg}deg)`;
+
+      // Random animation delay
+      petal.style.animationDelay = `${Math.random() * 10}s`;
+
+      petalsContainer.appendChild(petal);
+
+      // Remove after animation
+      setTimeout(() => {
+        if (petal.parentNode) {
+          petal.parentNode.removeChild(petal);
+        }
+      }, 20000);
+    };
+
+    const interval = setInterval(createPetal, 300);
+    return () => clearInterval(interval);
+  }, []);
+
+  // Create twinkling stars
+  useEffect(() => {
+    const starsContainer = document.querySelector('.stars');
+    for (let i = 0; i < 30; i++) {
+      const star = document.createElement('div');
+      star.className = 'star';
+      star.style.left = `${Math.random() * 100}%`;
+      star.style.top = `${Math.random() * 100}%`;
+      star.style.width = `${1 + Math.random() * 2}px`;
+      star.style.height = star.style.width;
+      star.style.animationDelay = `${Math.random() * 5}s`;
+      star.style.animationDuration = `${2 + Math.random() * 3}s`;
+      starsContainer.appendChild(star);
+    }
+  }, []);
+
   return (
     <div className="App">
+      {/* Sparkles & Particles */}
       <div className="sparkles"></div>
+      <div className="petals"></div>
+      <div className="stars"></div>
 
       {/* Floating Hearts */}
       <div className="hearts">
@@ -120,21 +388,11 @@ function App() {
         ))}
       </div>
 
-      {/* Section divider */}
-      <div className="wave-divider">
-        <svg viewBox="0 0 1440 100" width="100%" height="100">
-          <path
-            fill="#ff4d6d"
-            fillOpacity="0.18"
-            d="M0,80 C400,0 1040,120 1440,60 L1440,120 L0,120 Z"
-          />
-        </svg>
-      </div>
-
       {/* Welcome */}
       <section className="welcome">
         <h1 className="glow slide-in-left">
-          <FaRing /> Hari Weds Vino <FaRing />
+          <GiDiamondRing className="ring-icon" /> Hari Weds Vino{" "}
+          <GiDiamondRing className="ring-icon" />
         </h1>
         <p className="intro slide-in-right delay-1">
           Join us as we celebrate the marriage of <br />
@@ -183,11 +441,7 @@ function App() {
       {/* Couple */}
       <section className="couple reveal">
         <div className="left">
-          <img
-            src="/images/couple-1.jpg"
-            alt="Couple"
-            className="couple-img"
-          />
+          <img src="/images/couple-1.jpg" alt="Couple" className="couple-img" />
         </div>
         <div className="right">
           <h2>
@@ -239,7 +493,7 @@ function App() {
             width="100%"
             height="250"
             style={{ border: 0 }}
-            allowFullScreen=""
+            allowFullScreen
             loading="lazy"
           ></iframe>
         </div>
