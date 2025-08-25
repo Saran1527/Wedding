@@ -1,3 +1,4 @@
+// export default App;
 import { useState, useEffect, useMemo, useCallback } from "react";
 import "./App.css";
 import {
@@ -159,6 +160,17 @@ function App() {
             ❤️
           </span>
         ))}
+      </div>
+
+      {/* Section divider */}
+      <div className="wave-divider">
+        <svg viewBox="0 0 1440 100" width="100%" height="100">
+          <path
+            fill="#ff4d6d"
+            fillOpacity="0.18"
+            d="M0,80 C400,0 1040,120 1440,60 L1440,120 L0,120 Z"
+          />
+        </svg>
       </div>
 
       {/* Welcome */}
